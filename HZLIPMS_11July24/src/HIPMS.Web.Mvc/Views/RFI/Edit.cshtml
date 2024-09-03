@@ -1,0 +1,514 @@
+﻿@using HIPMS.Authorization.PO;
+@using HIPMS.Web.Models.Common.Modals
+@using HIPMS.Web.Startup;
+@using System.Text.Json;
+@using static HIPMS.Shared.SharedEnum;
+
+
+@model HIPMS.Shared.RFIEditRequest
+@{
+    ViewBag.Title = "Edit";
+    ViewBag.CurrentPageName = PageNames.EditRFI;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/RFIJ/Edit.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/RFIJ/Edit.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+     
+        $(document).ajaxStart(function () {
+            $("#loadingImg").show();
+            $("#fileButton").prop('disabled', true);
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loadingImg").hide();
+            $("#fileButton").prop('disabled', false);
+            $("#fileInput").val("");
+        });
+
+    });
+</script>
+<style>
+    .oec-approved {
+        color: green;
+    }
+    .oec-notapproved {
+        color: red;
+    }
+</style>
+<style>
+    .tablescroll {
+        max-height: 550px;
+        overflow: scroll;
+    }
+</style>
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("RFI")</h1>
+            </div>
+            <div class="col-sm-6">
+                @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                <i class="fa fa-plus-square"></i>
+                @L("Create")
+                </a>*@
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                         @*   <div class="col-md-6">
+                                @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        @*  <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                        <form id="editform" class="m-1 p-1" asp-controller="RFI" onSubmit="if(!confirm('Are you sure?')){return false;}" asp-action="EditRFIRequest" method="post">
+
+                            <input asp-for="@(Model.Id)" type="hidden" class="form-control" />
+                         
+
+                            @if (Model.Status != (int)RFIReqStatus.Pending && Model.Status != (int)RFIReqStatus.Refer && Model.Status != (int)RFIReqStatus.Reject)
+                            {
+                                @if (Model.IsApprovedByOEC)
+                                {
+                                    <span class="oec-approved"><b>● Approved By OEC</b> </span>
+                                }
+                                else
+                                {
+                                    <span class="oec-notapproved"><b>● Not approved By OEC</b></span>
+                                }
+                                <br/>
+                            }
+                            
+                            @if (Model.OpenNCR != null)
+                            {
+                                <table id="OpenNCRTbl" class="table table-striped table-bordered" style="box-sizing:unset">
+                                    <thead> Open NCR on PO
+                                        <tr style="font-size:15px">
+                                            <th>@L("Lessthan7days")</th>
+                                            <th>@L("7to30days")</th>
+                                            <th>@L("Morethan30days")</th>
+                                        </tr>
+                                        <tr style="font-size:15px">
+                                            <td class="control" style="min-width:auto">
+                                                @(Model.OpenNCR.Last7days)
+                                            </td>
+                                            <td class="control" style="min-width:auto">
+                                                @(Model.OpenNCR.Last7To30days)
+                                            </td>
+                                            <td class="control" style="min-width:auto">
+                                                @(Model.OpenNCR.Befor30Days)
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            }
+                            <div class="tablescroll">
+                                <table id="ICTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                                    <thead>
+                                        <tr style="font-size:15px">
+                                            <th>@L("ItemNumber")</th>
+                                            @*<th>@L("MaterialNo")</th>*@
+                                            <th>@L("POQty")</th>
+                                            <th>@L("MaterialDescription")</th>
+                                            <th>@L("ServiceNo")</th>
+                                            <th>@L("ServiceDescription")</th>
+                                            <th>@L("ServiceQty")</th>
+                                            <th>@L("PreviousQty")</th>
+                                            <th>@L("BalanceQty")</th>
+                                            <th>@L("InputQty")</th>
+                                            <th>@L("RequestStatus")</th>
+                                            <th>@L("UOM")</th>
+                                            @*   <th>@L("Make")</th>
+                                            <th>@L("Model")</th>
+                                            <th>@L("PartNo")</th>*@
+                                            @*<th>@L("SubmittedOn")</th>*@
+                                            <th>@L("Attachments")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+
+                                        @{
+                                            int j = 0;
+                                        }
+                                        @foreach (var i in Model.RFIItems)
+                                        {
+                                            <input asp-for="@(Model.RFIItems[j].POMasterId)" type="hidden" readonly class="form-control" />
+                                            <input asp-for="@(Model.RFIItems[j].PONo)" type="hidden" readonly class="form-control" />
+                                            <input asp-for="@(Model.RFIItems[j].RFIId)" type="hidden" readonly class="form-control" />
+                                            <tr style="font-size:13px">
+                                                <td class="control" style="min-width:auto">
+                                                    <input asp-for="@(Model.RFIItems[j].Id)" type="hidden" readonly class="form-control" />
+
+                                                    <input asp-for="@(Model.RFIItems[j].ItemNo)" type="text" readonly class="form-control" />
+                                                </td>
+
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].POQty)" type="text" readonly class="form-control" />
+                                                    @* @(Model.RFIItems[j].MaterialNo)*@
+                                                    @*<input asp-for="@(Model.ICItems[j].MaterialNo)" type="text" readonly class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @(Model.RFIItems[j].MaterialDescription)
+                                                    @*<input asp-for="@(Model.ICItems[j].MaterialDescription)" type="text" readonly class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @* @(Model.RFIItems[j].ServiceNo)*@
+                                                    <input asp-for="@(Model.RFIItems[j].ServiceNo)" type="text" readonly class="form-control" />
+                                                </td>
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].ServiceDescription)" type="text" readonly class="form-control" />
+
+                                                    @* @(Model.RFIItems[j].ServiceDescription)*@
+                                                    @* <input asp-for="@(Model.ICItems[j].StatusValue)" type="text" readonly class="form-control" />*@
+                                                </td>
+
+                                                @*<td>
+                                            <select asp-for="@(Model.RFIItems[j].MaterialClass)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>
+                                            <select asp-for="@(Model.ICItems[j].MaterialClassValue)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>
+                                            <select asp-for="@(Model.ICItems[j].MaterialClassList)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>
+                                            </td>*@
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].ServiceQty)" type="text" readonly class="form-control" />
+                                                    @* @(
+                                                i.POQty
+                                                )*@
+                                                </td>
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].PreviousQty)" type="text" readonly class="form-control" />
+                                                    @*  @(
+                                                i.ICPreviousQty
+                                                )*@
+                                                </td>
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].BalanceQty)" type="text" readonly class="form-control" />
+                                                    @*  @(i.ICBalanceQty)*@
+                                                </td>
+                                                <td>
+                                                    <input asp-for="@(Model.RFIItems[j].InputQty)" type="text" class="form-control" />
+                                                </td>
+                                                <td>
+                                                    @(Model.RFIItems[j].StatusValue)
+                                                    @* <input asp-for="@(Model.ICItems[j].StatusValue)" type="text" readonly class="form-control" />*@
+                                                </td>
+                                                <td>
+                                                    @* @(
+                                                i.UOM
+                                                )*@
+                                                    <input asp-for="@(Model.RFIItems[j].ServiceUOM)" type="text" readonly class="form-control" />
+
+                                                </td>
+                                                @*     <td>
+                                            @(Model.RFIItems[j].Make)
+                                            </td>
+                                            <td>
+                                            @(Model.RFIItems[j].Model)
+                                            </td>
+                                            <td>
+                                            @(Model.RFIItems[j].PartNo)
+                                            </td>*@
+                                                <td>
+
+
+                                                    @if (Model.RFIItems[j].Status != (int)RFIReqStatus.Approve && Model.RFIItems[0].Status != (int)RFIReqStatus.Reject)
+                                                    {
+
+                                                        @*    <input type="file" id="@("fileInput"+@Model.ICItems[j].Id)" onClick="getId(@(Model.Id))" multiple /> *@
+                                                        <input type="file" id="@("fileInput"+@Model.RFIItems[j].Id + "_"+@Model.Id)" multiple />
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                    }
+
+
+                                                    @*   <div class="col-sm-12">
+                                                <a href="javascript:;" data-toggle="modal" data-target="#ICUploadModal">
+                                                <i class="fa fa-tool"></i>
+                                                @L("Upload")
+                                                </a>
+                                                </div>*@
+                                                    @* @await Html.PartialAsync("~/Views/IC/_EditModal.cshtml", i)*@
+                                                    @* <a asp-controller="IC" asp-action="Edit" asp-route-id=@(i.Id)>Edit</a> /
+                                                <a asp-controller="IC" asp-action="Delete" asp-route-id=@(i.Id)>Delete</a>*@
+                                                </td>
+                                            </tr>
+                                            j++;
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                           </div>
+       
+
+                           
+                            @if (Model.RFIItems[0].Status == (int)RFIReqStatus.Approve || Model.RFIItems[0].Status == (int)RFIReqStatus.Reject)
+                            {
+                                <label>User Remark</label>
+                                <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                <label>OEC Remark</label>
+                                <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                <label>Vendor Remark</label>
+                                <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                            }
+                            else if (Model.RFIItems[0].Status == (int)RFIReqStatus.Pending || Model.RFIItems[0].Status == (int)RFIReqStatus.OECApprove)
+                            {
+                                if (Model.RoleName == ClientRoles.admin.ToString() || Model.RoleName == ClientRoles.hzl.ToString())
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                }
+                                else if (Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                    @*textarea not works value not bind on controller
+                                    <textarea asp-for="@(Model.OECActionRemark)" class="form-control" rows="3" cols="30"></textarea>*@
+                                }
+                                else
+                                {
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                            }
+                            else
+                            {
+                                if (Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                }
+                                else
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly/>
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly/>
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                }
+                            }
+
+
+                            @if (Model.Status != (int)RFIReqStatus.Approve && Model.Status != (int)RFIReqStatus.Reject)
+                            {
+                                if(Model.RoleName == ClientRoles.admin.ToString() || Model.RoleName == ClientRoles.hzl.ToString() || Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <input type="submit" name="approve" value="Approve" class="btn btn-primary" />
+                                    if (Model.Status != (int)RFIReqStatus.Refer && Model.RoleName != ClientRoles.oec.ToString())
+                                    {
+                                        <input type="submit" name="refer" value="Refer" class="btn btn-primary" />
+                                    }
+                                    <input type="submit" name="reject" value="Reject" class="btn btn-primary" />
+                                }
+                                @if (Model.Status == (int)RFIReqStatus.Refer)
+                                {
+                                    if ((Model.RoleName == ClientRoles.oec.ToString() || Model.RoleName == ClientRoles.admin.ToString()))
+                                    {
+                                        <input type="submit" name="update" value="Update" class="btn btn-primary" />
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="submit" name="update" value="Update" class="btn btn-primary" />
+                                }
+                            }
+                         
+                           
+                           
+                        </form>
+
+                         @*  @foreach (var i in @Model.RFIItems)
+                            {
+                                @foreach (var p in i.RFIDocuments)
+                                {
+                                <form asp-controller="File" asp-action="DownloadFile" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="fileName" value="@p.DocumentLocation" />
+                                    <button type="submit">Download</button>
+                                </form>
+                                }
+                            }*@
+
+
+
+                        <script>
+                            $(document).ready(function () {
+                                $('#memoryStreamModal').on('show.bs.modal', function (e) {
+                                    //var url = '@Url.Action("GetMemoryStreamData", "File")';
+                                    //var url = '@Url.Action("DownloadFile", "File", new { fileNAme = "f:\\test.png" })';
+                                    //console.log(url);
+                                    //$('.modal-body').load(url);
+                                    var modal = $(this);
+                                    modal.find('.modal-dialog').css({
+                                                        'min-width': '80%',
+                                                        'top': '0%', // Adjust the top position
+                                                        'left': '10%', // Adjust the left position
+                                                        'margin-left': function () {
+                                                            return -($(this).width() / 2);
+                                                        }
+                                                    });
+                                });
+                            });
+                        </script>
+
+                        <div>
+@*                            <!-- Button to trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                Open Modal
+                            </button>
+
+                            <!-- Include the modal partial view -->
+                            @Html.Partial("ViewFileModal")*@
+
+                           
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="memoryStreamModal" tabindex="-1" role="dialog" aria-labelledby="memoryStreamModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="memoryStreamModalLabel">File</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" id="modalContent">
+                                            <!-- Content will be loaded here -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                function callDownloadFile(fileName) {
+                                    $.ajax({
+                                        url: '/File/DownloadFile', // URL to your ASP.NET Core action
+                                        type: 'GET',
+                                        data: { fileName: 'f://test.png' },
+                                        success: function (data) {
+
+                                            $('#modalContent').html(data);
+                                            $('#memoryStreamModal').modal('show');
+
+                                        },
+                                        error: function () {
+                                            alert('Failed to load content.');
+                                        }
+                                    });
+                                }
+
+                                //$(document).ready(function () {
+                                //    $('#btnDownloadFile').click(function () {
+
+                                //    });
+                                //});
+                            </script>
+
+
+
+                            <table id="RFIDocumentTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                                <tbody></tbody>
+                                <tr id="nthRow">
+                                    <th>@L("ServiceNo")</th>
+                                  @*   <th>Id</th> *@
+                                    <th>DocumentPath</th>
+                                </tr>
+
+                                @foreach (var i in @Model.RFIItems)
+                                {
+
+                                    @foreach (var p in i.RFIDocuments)
+                                    {
+                                        <tr>
+                                            <td>@i.ServiceNo</td>
+                                            @*  <td>@p.Id</td> *@
+                                            <td class="control" style="min-width:auto">
+                                                <a class="page-scroll" href=@p.DocumentLocation target="_blank">Click here</a>
+                                                @*<a asp-controller="File" asp-action="DownloadFile" asp-route-fileName="@p.DocumentLocation">Download</a>*@
+                                                if(Path.get @p.DocumentLocation.)
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#memoryStreamModal" onclick="callDownloadFile('@p.DocumentLocation')">
+                                                    Open Modal
+                                                </button>
+
+
+                                                @Html.ActionLink(@p.DocumentLocation,"DownloadFileT", "File", new { fileName = @p.DocumentLocation })
+                                                <a href="@Url.Action("DownloadFileT", "File", new { fileName = @p.DocumentLocation })" target="_blank">View</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                @* <thead>Documents</thead>
+                                <tr style="font-size:15px">
+                                <th>@L("ItemNumber")</th>
+                                <th>@L("DocumentPath")</th>
+                                </tr>
+                                @foreach (var i in Model.ICItems)
+                                {
+                                <tr style="font-size:13px">
+
+                                <td class="control" style="min-width:auto">
+                                @(i.Id)
+                                </td>
+                                <td class="control" style="min-width:auto">
+                                <a class="page-scroll" href="https://localhost:44312//Files/IC/0730202300.png" target="_blank">https://localhost:44312//Files/IC/0730202300.png</a>
+                                </td>
+                                </tr>
+                                }*@
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

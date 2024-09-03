@@ -1,0 +1,123 @@
+﻿@using HIPMS.Models;
+@using HIPMS.Web.Startup
+@model HIPMS.Shared.CrudUserPOMap
+@{
+    ViewBag.Title = L("POMap");
+    ViewBag.CurrentPageName = PageNames.POMap;
+}
+@section scripts
+    {
+      <environment names="Development">
+          <script src="~/view-resources/Views/PO/Index.js" asp-append-version="true"></script>
+      </environment>
+      
+      <environment names="Staging,Production">
+          <script src="~/view-resources/Views/PO/Index.min.js" asp-append-version="true"></script>
+      </environment>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+   
+    <script>
+        $(document).ready(function () {
+            $(".js-example-basic-single").select2();
+        });
+    </script>
+    }
+
+<section class="content-header">
+    <h1>@L("PO")</h1>
+    <div class="container-fluid">
+
+    </div>
+</section>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <form id="createMap" class="m-1 p-1" asp-controller="PO" onSubmit="if(!confirm('Are you sure?')){return false;}" asp-action="CreatePOMapRequest" method="post">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>Enter PO</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                               
+                            <div class="col-sm-2">
+                                    <input id="POSearch" type="text" asp-for="@(Model.PONo)" class="form-control txt-search" value="Enter PO No." />
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="btnSearch" type="button" class="btn bg-blue btn-search">
+                                    <span class="fas fa-search" aria-hidden="true"></span>
+                                </button>
+                            </div>
+
+                                @* <div class="col-md-2">
+                                    <label>OR</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Select Existing PO</label>
+                                    <select asp-for="@(Model.POId)"
+                                            class="form-control"
+                                            asp-items="@(new SelectList(Model.PODD,"Id","PONumber"))">
+                                    </select>
+                                </div>*@
+                            </div>
+                          
+
+
+                            <div class="row">
+                               
+                                <div id="userDiv" class="col-md-6">
+                                    <label>User</label>
+
+                                    @*if select2 implement  <select asp-for="@(Model.UserId)"
+                                    class="form-control js-example-basic-single" style="height:120px"
+                                    asp-items="@(new SelectList(Model.UserDD,"Id", "UserEmail"))">*@
+                                    <select asp-for="@(Model.UserId)"
+                                            class="form-control"
+                                            asp-items="@(new SelectList(Model.UserDD,"Id", "UserEmail"))">
+                                    </select>
+                                    @*    @Html.DropDownList("UserList", new SelectList(Model.UserDD,"Id", "UserEmail"), new { @class = "form-control js-example-basic-single" })*@
+                                </div>
+                            </div>
+
+                            <div class="row">&nbsp;</div>
+                               @* uncomment later <div class="row">
+                             <div class="col-12">
+                                 <div class="icheck-primary">
+                                    <input id="IsApprover" asp-for="@(Model.IsApprover)" type="checkbox" />
+                                    <label>
+                                        @L("IsApprover")
+                                    </label>
+                                  </div>
+                             </div>
+                        </div>*@
+                     @*   <div class="row">
+                            <div class="col-12">
+                                <div class="icheck-primary">
+                                  <input id="isVendor" asp-for="@(Model.IsVendor)" type="checkbox" />
+                                  <label>
+                                      @L("IsVendor")
+                                  </label>
+                                </div>
+                            </div>
+                        </div>*@
+                       
+                            <button type="submit" id="btnSubmit" class="btn btn-primary save-button">Map User</button>
+                        </form>
+                    </div>
+                </div>
+             
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+

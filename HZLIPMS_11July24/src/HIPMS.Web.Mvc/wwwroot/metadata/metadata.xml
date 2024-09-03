@@ -1,0 +1,403 @@
+<saml2p:Response Destination="https://aewXXXX.accounts.ondemand.com/saml2/idp/acs/aewXXXXX.accounts.ondemand.com?sp=https://btp-quality-XXXXX.authentication.eu10.hana.ondemand.com"
+                 ID="_1719825567727-7061028261449573752.10.209.37.76"
+                 IssueInstant="2024-07-01T09:19:27.727Z"
+                 Version="2.0"
+                 xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 >
+    <saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">https://localhost:44312</saml2:Issuer>
+    <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:SignedInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"
+                                       xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                                       />
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"
+                                xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                                />
+            <ds:Reference URI="#_1719825567727-7061028261449573752.10.209.37.76"
+                          xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                          >
+                <ds:Transforms xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                    <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"
+                                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                                  />
+                    <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"
+                                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                                  >
+                        <ec:InclusiveNamespaces PrefixList="xs"
+                                                xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"
+                                                />
+                    </ds:Transform>
+                </ds:Transforms>
+                <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"
+                                 xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                                 />
+                <ds:DigestValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">lo6XfvAwjKUCwz/PcjFtSSGusgM=</ds:DigestValue>
+            </ds:Reference>
+        </ds:SignedInfo>
+        <ds:SignatureValue xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+JrloznjJg+hgaGu9o8ugWfR9inINjvrS5OvRpsQ/0PxKMgSfll7xjYmZXe0K0P45NilPLvJtiC1L
+t1dt8IlZusz8kWUsmHu/KRPnbdA/npZ7bT6qOpqRZrCTNjYeEu2NBSnX6G53i2Vbi7Iau0hXgTVp
+8s2cp328Y9jb0Oo9iLNYMglTjiwy+WTjQFIUmgXQ85sJjjwsIBfIrY0hM+6oZSpeVjKY69usyQUE
+1poL4ICAKXNb1K43X7hhKFnh2SyHqkKH8iZcIGdbHZX3DFZLiJaPq9SCERzmhkSfxjnJVQLqvCv+
+i/rpvU0Z8vzTIxOsgGW8JxtkRGtP64qyVcqjRg==
+</ds:SignatureValue>
+        <ds:KeyInfo>
+            <ds:KeyValue>
+                <ds:RSAKeyValue>
+                    <ds:Modulus>uTqrc/KVzVn7MFettKUY21MPKERxkMzSsxkaTRXnIABlJrsLVIJr+mYIvhdx/vXXWJsys9C2a6dv
+FSNR01iOpx25GnRUvII475Hhw8Ve7T5vH5QdxjTVPC5Q5nvkZ7bnv4o5880ZWKcR61X27ua/X+i0
+Knwnl8/yLCqZ9qvufwh0fTLLdOMpx5+0f/uTcZ0idFCEvlEwiRNGXgu6f+xoLAJ9P1uYdwlGGFme
+6iNfL7hbAPNTekM54nAf4a3GezxmO1DN04xMmyk98Z0YDrPTZGt6DVjAY6CDV7siHys8vzvMPU8L
+2rf1OPHKWhSSfQSuYel/ueROVsEzlFUqAyBwEQ==</ds:Modulus>
+                    <ds:Exponent>AQAB</ds:Exponent>
+                </ds:RSAKeyValue>
+            </ds:KeyValue>
+        </ds:KeyInfo>
+    </ds:Signature>
+    <saml2p:Status>
+        <saml2p:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success" />
+    </saml2p:Status>
+    <saml2:Assertion ID="_1719825567726-5365197560005003530.10.209.37.76"
+                     IssueInstant="2024-07-01T09:19:27.726Z"
+                     Version="2.0"
+                     xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion"
+                     >
+        <saml2:Issuer>https://localhost:44312</saml2:Issuer>
+        <saml2:Subject>
+            <saml2:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">test-Supplier-XXXXX@XXXXX.com</saml2:NameID>
+            <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+                <saml2:SubjectConfirmationData NotOnOrAfter="2024-07-01T09:49:27.726Z"
+                                               Recipient="https://aewXXXXX.accounts.ondemand.com/saml2/idp/acs/aewXXXX.accounts.ondemand.com?sp=https://btp-quality-XXXXX.authentication.eu10.hana.ondemand.com"
+                                               />
+            </saml2:SubjectConfirmation>
+        </saml2:Subject>
+        <saml2:Conditions NotBefore="2024-07-01T09:19:27.726Z"
+                          NotOnOrAfter="2024-07-01T09:49:27.726Z"
+                          >
+            <saml2:AudienceRestriction>
+                <saml2:Audience>aewXXXX.accounts.ondemand.com</saml2:Audience>
+            </saml2:AudienceRestriction>
+        </saml2:Conditions>
+        <saml2:AttributeStatement>
+            <saml2:Attribute Name="UserTimeZone"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >America/Los_Angeles</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="ContactType"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      />
+            </saml2:Attribute>
+            <saml2:Attribute Name="ANID"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >AN111XXXXX-T</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="UserID"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >test-Supplier-XXXX@XXXXX.com</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="CfuMfaEnabled"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >false</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="OrgCommunity"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >9</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="ContactEmail"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >XXXXX@XXXXXX.com</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="ContactFirstName"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >XXXXX Pvt. Ltd.</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="ContactLastName"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Supplier</saml2:AttributeValue>
+            </saml2:Attribute>
+            <saml2:Attribute Name="PermissionsList"
+                             NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic"
+                             >
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Config_CompanyInformation</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ContactManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Domain_Registration_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >BuyerManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_AssignPOExternalUser</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Trading_Invitation_Account_Merge</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >DPP_Company_Data_Config</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >DPP_Download_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Data_Download_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Trade_With_SCF_Provider</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Accept_Order_Change_Request</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Reject_Order_Change_Request</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Propose_Order_Change_Request</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_UserManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Network_Catalog_Product_Approver</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Network_Catalog_Product_Manager</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_ShipNotice_Access_For_PurchaseOrder</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_ShipNotice_Creation_For_PurchaseOrder</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_ShipNotice_Access_For_StockTransportOrder</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_ShipNotice_Creation_For_StockTransportOrder</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_GoodsReceipt_For_Order_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_GoodsReceipt_For_Order_Creation</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_SubcontractingPurchaseOrder_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_SubcontractingPurchaseOrder_Confirmation</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_BtpApps_FullAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_BtpApps_RestrictedAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_SubcontractingPurchaseOrder_Report_Consumption</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_StockTransportOrder_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >LifeSciences_StockTransportOrder_Confirmation</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Mkt_SupplierView</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Mkt_BuyerView</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_InboxAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Config_AccountSetup_PaymentInfo</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_OutboxAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_InvoiceGen</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_ContractAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportPO</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Payment_Profile</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportInvoice</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Catalog</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Config_Payment</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Config_Transactions</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_SupplierDiscountManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportGR</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Config_AccountSetup_cXMLSetup</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_InvoiceFolioManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >SupplierApp_Payment_Profile</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Catalog_Account_Exec</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Catalog_Content_Manager</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Inventory_Collaboration_Visibility</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_Verify_Timestamp</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportTaxBook</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportTimeCard</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_LogisticsAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >OrderManagement_ServicesAccess</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Admin_ReportSES</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Customer_Relationships</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Archive_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >TimeCardManagement</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Receivables_Upload</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Supplier_TreasuryAgent</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >API_development_access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Notification_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Inspection_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Integration_View</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Inspection_Create</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Integration_Administration</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Notification_Create</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Review_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Review_Create</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Proof_Of_Service_Report_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Proof_Of_Service_Create_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Proof_Of_Service_Review_And_Approve_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Proof_Of_Service_Create_OnBehalf_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Quality_Inspection_Signature</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >AN_DOX_Admin_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Planning_Multitier_Visibility</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Integration_Management_Full_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Integration_Management_ReadOnly_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >SAC_Dashboard_Access</saml2:AttributeValue>
+                <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                      xsi:type="xs:string"
+                                      >Partner_API_Management</saml2:AttributeValue>
+            </saml2:Attribute>
+        </saml2:AttributeStatement>
+        <saml2:AuthnStatement AuthnInstant="2024-07-01T09:19:27.727Z"
+                              SessionIndex="_1719825567727-712818821725911157.10.209.37.76"
+                              SessionNotOnOrAfter="2024-07-01T09:49:27.727Z"
+                              >
+            <saml2:AuthnContext>
+                <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml2:AuthnContextClassRef>
+            </saml2:AuthnContext>
+        </saml2:AuthnStatement>
+    </saml2:Assertion>
+</saml2p:Response>

@@ -1,0 +1,125 @@
+﻿@using HIPMS.Web.Startup
+@model List<HIPMS.Shared.CrudNCRModel>
+@{
+    ViewBag.Title = L("NCR");
+    ViewBag.CurrentPageName = PageNames.NCR;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/NCR/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/NCR/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("NCR")</h1>
+            </div>
+            <div class="col-sm-6">
+                @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                <i class="fa fa-plus-square"></i>
+                @L("Create")
+                </a>*@
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                        @*    <div class="col-md-6">
+                                @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="NCRTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@L("NCRNo")</th>
+                                        <th>@L("PO")</th>
+                                        <th>@L("ProjectName")</th>
+                                        <th>@L("Location")</th>
+                                        <th>@L("Criticality")</th>
+                                        <th>@L("DateRaised")</th>
+                                        <th>@L("CompletionDate")</th>
+                                        <th>@L("Discipline")</th>
+                                        <th>@L("Status")</th>
+                                        <th>@L("NCRDescription")</th>
+                                        <th>@L("VendorRemark")</th>
+                                        @*   <th>@L("Status")</th>
+                                        <th>@L("SubmittedOn")</th>*@
+                                        <th style="width: 150px">@L("Actions")</th>
+                                    </tr>
+                                    @foreach (var i in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(i.Id)
+                                            </td>
+                                            <td>
+                                                @(i.PONumber)
+                                            </td>
+                                            <td>
+                                                @*<input type="text" value=@(i.VendorName) />*@
+                                                @(i.ProjectName)
+                                            </td>
+                                            <td>
+                                                @(i.Location)
+                                            </td>
+                                            <td>
+                                                @(i.Criticality)
+                                            </td>
+                                            <td>
+                                                @(i.DateRaised)
+                                            </td>
+                                            <td>
+                                                @(i.CompletionDate)
+                                            </td>
+                                            <td>
+                                                @(i.Discipline)
+                                            </td>
+                                          
+                                            <td>
+                                                @(i.Status.ToString())
+                                            </td>
+                                            <td>
+                                                @(i.NCRDescription)
+                                            </td>
+                                            <td>
+                                                @(i.VendorComments)
+                                            </td>
+                                            <td>
+                                                <a asp-controller="NCR" asp-action="Edit" asp-route-id=@(i.Id) asp>Edit</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

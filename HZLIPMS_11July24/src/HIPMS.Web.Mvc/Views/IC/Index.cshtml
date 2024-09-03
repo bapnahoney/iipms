@@ -1,0 +1,167 @@
+﻿@using HIPMS.Web.Startup
+@model List<HIPMS.Web.Models.IC.ICListViewModel>
+@{
+    ViewBag.Title = L("IC");
+    ViewBag.CurrentPageName = PageNames.IC;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/IC/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/IC/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<style type="text/css">
+    html > body label {
+        color: lightcoral;
+    }
+</style>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("IC")</h1>
+            </div>
+            <div class="col-sm-6">
+              @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                    <i class="fa fa-plus-square"></i>
+                    @L("Create")
+                </a>*@
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                          @*  <div class="col-md-6">
+                                @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <label>A: Witness – By HZL/OEC </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>B: Review – By EPC partner</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label>C: Review – Based on Mfg. test reports</label></br>
+                        <span><b><a asp-controller="IC" asp-action="DownloadExcel">Download Report</a></b></span>
+                        
+                        <div class="table-responsive">
+                          
+                            <table id="ICTable" overflow="scroll" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@L("MDC")</th>
+                                        <th>@L("PO")</th>
+                                        <th>@L("VendorName")</th>
+                                        <th>@L("VendorNo")</th>
+                                     @*   <th>@L("ManufacturerName")</th>
+                                        <th>@L("ManufacturerPlantAddress")</th>*@
+                                        <th>@L("VendorRemark")</th>
+                                     @*   <th>@L("Status")</th>
+                                        <th>@L("SubmittedOn")</th>*@
+                                        <th style="width: 150px">@L("Actions")</th>
+                                    </tr>
+                                    @foreach(var i in Model)
+                                    {
+                                            <tr class="paginate">
+                                            <td>
+                                                @(i.Id)
+                                            </td>
+                                            <td>
+                                                @(i.PO)
+                                            </td>
+                                            <td>
+                                                @*<input type="text" value=@(i.VendorName) />*@
+                                                @(i.VendorName)
+                                            </td>
+                                            <td>
+                                                @(i.VendorNo)
+                                            </td>
+                                           @* <td>
+                                                @(i.ManufacturerName)
+                                            </td>
+                                            <td>
+                                                @(i.ManufacturerPlantAddress)
+                                            </td>*@
+                                            <td>
+                                                @(i.VendorRemark)
+                                            </td>
+                                            <td>
+                                                <a asp-controller="IC" asp-action="Edit" asp-route-id=@(i.Id) asp >Edit</a>
+                                               
+                                             
+                                               @* <div class="col-sm-12">
+                                                    <a href="javascript:;" data-toggle="modal" data-target="#ICEditModal" class="btn bg-blue float-sm-right">
+                                                        <i class="fa fa-tool"></i>
+                                                        @L("Edit")
+                                                    </a>
+                                                </div>*@
+                                              @* @await Html.PartialAsync("~/Views/IC/_EditModal.cshtml", i)*@
+                                               @* <a asp-controller="IC" asp-action="Edit" asp-route-id=@(i.Id)>Edit</a> /
+                                                <a asp-controller="IC" asp-action="Delete" asp-route-id=@(i.Id)>Delete</a>*@
+                                            </td>
+                                        </tr>
+                                    }
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                               @* <ul>
+                                    <li class="@(Model.FirstOrDefault().HasPrev?"":"disabled")">
+                                        <a asp-action="Index" asp-route-page="@(Model.FirstOrDefault().CurrentPage-1)">Previous</a>
+                                    </li>
+                                    @for (int i = 1; i <= Model.FirstOrDefault().TotalPage; i++)
+                                    {
+                                        <li class="@(i==Model.FirstOrDefault().CurrentPage ? "disabled":"")">
+                                            <a asp-action="Index" asp-route-page="@i">@i</a>
+                                        </li>
+                                    }
+                                    <li class="@(Model.FirstOrDefault().HasNext?"":"disabled")">
+                                        <a asp-action="Index" asp-route-page="@(Model.FirstOrDefault().CurrentPage+1)">Next</a>
+                                    </li>
+                                </ul>*@
+                                <ul>
+                                    <li>
+                                    @if (Model.FirstOrDefault().HasPrev)
+                                    {
+                                        <a  asp-action="Index" asp-route-page="@(Model.FirstOrDefault().CurrentPage-1)">Previous</a>
+                                    }
+                                    else
+                                    {
+                                    }
+                                   
+                                    @for (int i = 1; i <= Model.FirstOrDefault().TotalPage; i++)
+                                    {
+                                        <a class="@(i==Model.FirstOrDefault().CurrentPage ? "disabled":"")" asp-action="Index" asp-route-page="@i"> @i </a>
+                                    }
+                                    @if (Model.FirstOrDefault().HasNext)
+                                    {
+                                        <a asp-action="Index" asp-route-page="@(Model.FirstOrDefault().CurrentPage+1)">Next</a>
+                                    }
+                                    else
+                                    {
+                                    }
+                                    </li>
+                                </ul>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("~/Views/IC/_CreateModal.cshtml", Model.FirstOrDefault())
+
+

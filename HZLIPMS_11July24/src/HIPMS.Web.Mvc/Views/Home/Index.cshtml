@@ -1,0 +1,150 @@
+﻿@using HIPMS.Web.Startup
+@model HIPMS.Web.Models.Dashboard.DashboardViewModel
+@{
+    ViewBag.Title = L("HomePage");
+    ViewBag.CurrentPageName = PageNames.Home;
+}
+
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/libs/chartjs/dist/Chart.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/Home/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0 text-dark">@L("HomePage")</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+<div class="container-fluid">
+@*<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info alert-dismissible">
+            <h6><i class="icon fa fa-info"></i> This is a sample Dashboard which doesn't show any server side data. However, you can develop your own dashboard inspired by this one and its source code.</h6>
+        </div>
+    </div>
+</div>*@
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1">
+                <i class="fas fa-bars"></i>
+            </span>
+            <div class="info-box-content">
+                        <span class="info-box-text">Measurement Dispatch Certification</span>
+                <span class="info-box-number">
+                            @(Model != null ? Model.PendingIC : "0")
+                            <small class ="badge badge-warning">Pending</small>
+                </span>
+                 <span class="info-box-number">
+                            @(Model != null ? Model.ApprovedIC : "0")
+                            <small class="badge badge-success">
+                                Approved</small>
+                </span>
+                 <span class="info-box-number">
+                            @(Model != null ? Model.ReferredIC : "0")
+                    <small class="badge badge-info">Referred</small>
+                </span>
+                 <span class="info-box-number">
+                            @(Model != null ? Model.RejectedIC : "0")
+                    <small class="badge badge-danger">Rejected</small>
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+   
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1">
+                @*<i class="fas fa-shopping-cart"></i>*@
+                        <i class="fas fa-bars"></i>
+            </span>
+            <div class="info-box-content">
+                        <span class="info-box-text">Joint Measurement Certification</span>
+               @* <span class="info-box-number">760</span>*@
+                        <span class="info-box-number">
+                            @(Model != null ? Model.PendingRFI : "0")
+                            <small class="badge badge-warning">Pending</small>
+                        </span>
+                        <span class="info-box-number">
+                            @(Model != null ? Model.ApproveRFI : "0")
+                            <small class="badge badge-success">Approved</small>
+                        </span>
+                        <span class="info-box-number">
+                            @(Model != null ? Model.ReferredRFI : "0")
+                            <small class="badge badge-info">Refered</small>
+                        </span>
+                        <span class="info-box-number">
+                            @(Model != null ? Model.RejectedRFI : "0")
+                            <small class="badge badge-danger">Rejected</small>
+                        </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+
+            <div class="clearfix hidden-md-up"></div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-secondary elevation-1">
+                        @*<i class="fas fa-shopping-cart"></i>*@
+                        <i class="fas fa-bars"></i>
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Non Compliance Report</span>
+                        @* <span class="info-box-number">760</span>*@
+                        <span class="info-box-number">
+                            @(Model != null ? Model.OpenNCR : "0")
+                            <small class="badge badge-warning">Open</small>
+                        </span>
+                        <span class="info-box-number">
+                            @(Model != null ? Model.PendingNCR : "0")
+                            <small class="badge badge-success">Pending</small>
+                        </span>
+                        <span class="info-box-number">
+                            @(Model != null ? Model.CloseNCR : "0")
+                            <small class="badge badge-info">Close</small>
+                        </span>
+                       
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+    <!-- /.col -->
+   @* <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1">
+                <i class="fas fa-users"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">Other</span>
+                <span class="info-box-number">2,000</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>*@
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+@*two rows deleted chart diagram can copy from original*@
+</div>
+</section>

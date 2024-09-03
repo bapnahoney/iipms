@@ -1,0 +1,50 @@
+﻿@using System.IO;
+@model System.IO.MemoryStream
+
+@{
+    var stream = ViewData["StreamContent"] as MemoryStream;
+    var fileType = ViewData["FileType"] as string;
+}
+
+@if (stream != null && !string.IsNullOrEmpty(fileType))
+{
+    stream.Position = 0; // Reset the stream position to the beginning
+
+    if (fileType == "text/plain")
+    {
+        using (var reader = new StreamReader(stream))
+        {
+            string content = reader.ReadToEnd();
+            <pre>@Html.Raw(content)</pre>
+        }
+    }
+    else if (fileType.StartsWith("image/"))
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <img src="data:@fileType;base64,@base64"  alt="Image" />
+    }
+    else if (fileType == "application/pdf")
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <embed src="data:application/pdf;base64,@base64" type="application/pdf" />
+    }
+    else if (fileType == "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <embed src="data:@fileType;base64,@base64" type="@fileType" />
+    }
+    else if (fileType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <embed src="data:@fileType;base64,@base64" type="@fileType" />
+    }
+    
+    else
+    {
+        <p>Unsupported file type.</p>
+    }
+}
+else
+{
+    <p>No file to display.</p>
+}

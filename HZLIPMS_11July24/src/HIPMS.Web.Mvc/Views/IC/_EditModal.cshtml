@@ -1,0 +1,120 @@
+﻿
+@using HIPMS.Authorization.PO;
+@using HIPMS.Web.Models.Common.Modals
+@using static HIPMS.Shared.SharedEnum;
+@model HIPMS.Web.Models.IC.ICListViewModel
+
+
+<div class="modal fade" id="ICEditModal" tabindex="-1" role="dialog" aria-labelledby="ICEditModaLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Edit")))
+            <form name="ICEditForm" role="form" class="form-horizontal">
+                <div class="modal-body">
+
+                    <div class="form-group row required">
+                            <div  class="table-responsive">
+                            <table id="ICTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                                    <thead>
+                                    <tr style="font-size:15px">
+                                            <th>@L("ItemNo")</th>
+                                            <th>@L("MaterialNo")</th>
+                                            <th>@L("MaterialDescription")</th>
+                                            <th>@L("MaterialClass")</th>
+                                            <th>@L("POQty")</th>
+                                            <th>@L("ICPreviousQty")</th>
+                                            <th>@L("ICBalanceQty")</th>
+                                            <th>@L("ICInputQty")</th>
+                                            <th>@L("Status")</th>
+                                            <th>@L("UOM")</th>
+                                            @*   <th>@L("Status")</th>
+                                            <th>@L("SubmittedOn")</th>*@
+                                            <th>@L("Actions")</th>
+                                        </tr>
+                                        @foreach (var i in Model.ICItems)
+                                        {
+                                        <tr style="font-size:13px">
+                                                <td>
+                                                    @(i.ItemNo)
+                                                </td>
+                                                <td>
+                                                    @(i.MaterialNo)
+                                                </td>
+                                                <td>
+                                                    @*<input type="text" value=@(i.VendorName) />*@
+                                                    @(i.MaterialDescription)
+                                                </td>
+                                            @if (Model.RoleName == "vendor" || Model.RoleName == "oec")
+                                            {
+                                                <td>
+                                                    <select asp-for="@(i.MaterialClassValue)" asp-items="Html.GetEnumSelectList<POMaterialClass>()" disabled></select>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <select asp-for="@(i.MaterialClassValue)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>
+                                                </td>
+                                            }                  }
+                                                
+                                                <td>
+                                                    @(i.POQty)
+                                                </td>
+                                                <td>
+                                                    @(i.ICPreviousQty)
+                                                </td>
+                                                <td>
+                                                    @(i.ICBalanceQty)
+                                                </td>
+                                                <td>
+                                                <input id="vendorname" type="text" name="Name" class="form-control" value="@(i.ICInputQty)" required maxlength="32" minlength="2">
+                                                </td>
+                                                <td>
+                                                    @(i.StatusValue)
+                                                </td>
+                                                <td>
+                                                    @(i.UOM)
+                                                </td>
+                                                <td>
+                                                    <div class="col-sm-12">
+                                                        <a href="javascript:;" data-toggle="modal" data-target="#ICUploadModal" >
+                                                            <i class="fa fa-tool"></i>
+                                                            @L("Upload")
+                                                        </a>
+                                                    </div>
+                                                   @* @await Html.PartialAsync("~/Views/IC/_EditModal.cshtml", i)*@
+                                                    @* <a asp-controller="IC" asp-action="Edit" asp-route-id=@(i.Id)>Edit</a> /
+                                                <a asp-controller="IC" asp-action="Delete" asp-route-id=@(i.Id)>Delete</a>*@
+                                                </td>
+                                            </tr>
+                                        }
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            @Html.ActionLink("EditModal", "EditModal", @Model)
+                            </div>
+                        
+                    </div>
+
+                    @*<div class="form-group row required">
+                        <label class="col-md-2 col-form-label" for="rolename">@L("VendorName")</label>
+                        <div class="col-md-4">
+                            <input id="vendorname" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                        </div>
+                        <label class="col-md-2 col-form-label" for="rolename">@L("VendorNo")</label>
+                        <div class="col-md-4">
+                            <input id="vendorname" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                        </div>
+                    </div>*@
+                    
+                    
+                </div>
+               @* @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")*@
+            </form>
+
+            <button id="btnSave" class="btn btn-primary save-button">@L("Save")</button>
+          <script src="~/view-resources/Views/IC/_EditModal.js" asp-append-version="true"></script>
+        </div>
+    </div>
+</div>

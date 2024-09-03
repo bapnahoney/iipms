@@ -1,0 +1,26 @@
+{
+    "VENDOR_NAME": "hzl",
+    "VENDOR_NO": 1001,
+    "PO_TYPE": "ZPDS",
+    "PROJECT_NAME": "STPDSC-10-02",
+    "PO_DETAILS": {
+        "item": [
+            {
+                "ITEM_NO": "10",
+                "MATERIAL_NO": "",
+                "MATERIAL_DESC": "Supply and Erection",
+                "UOM": "LE",
+                "PO_QUAN": 100,
+                "MATERIAL_CLASS": 1,
+                "SERVICE_NO": "10",
+                "SERVICE_DESC": "light fixing",
+                "SERVICE_QUAN": "30.000",
+                "SERVICE_UOM": "EA",
+                "QUANTITY":10
+            }
+        ]
+    },
+    "MESSAGE_CODE": 200,
+    "MESSAGE_DESC": "Success"
+}
+						

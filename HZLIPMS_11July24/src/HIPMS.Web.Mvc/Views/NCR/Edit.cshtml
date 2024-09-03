@@ -1,0 +1,290 @@
+﻿@using HIPMS.Models;
+@using HIPMS.Web.Startup
+@using static HIPMS.Shared.SharedEnum;
+@model HIPMS.Shared.CrudNCRModel
+@{
+    ViewBag.Title = L("NCR");
+    ViewBag.CurrentPageName = PageNames.NCR;
+}
+
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/NCR/Edit.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/NCR/Edit.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(document).ajaxStart(function () {
+            $("#loadingImg").show();
+            $("#fileButton").prop('disabled', true);
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loadingImg").hide();
+            $("#fileButton").prop('disabled', false);
+            $("#fileInput").val("");
+        });
+
+    });
+</script>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("NCR")</h1>
+            </div>
+            <div class="col-sm-6">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                            @*   <div class="col-md-6">
+                            @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        @*  <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                        <form id="editNCR" class="m-1 p-1" asp-controller="NCR" asp-action="EditRequest" method="post">
+
+
+                            <table id="" class="table table-striped table-bordered" style="box-sizing:unset">
+                                <thead>
+                                    <tr style="font-size:15px">
+                                        <th>@L("NCRNo")</th>
+                                        <th>@L("PO")</th>
+                                        <th>@L("ProjectName")</th>
+                                        <th>@L("Location")</th>
+                                        <th>@L("Discipline")</th>
+                                        <th>@L("Criticality")</th>
+                                        <th>@L("Status")</th>
+                                        <th>@L("NCRDescription")</th>
+                                        <th>@L("DateRaised")</th>
+                                        <th>@L("CompletionDate")</th>
+                                        <th>@L("Actions")</th>
+                                    </tr>
+                                    <tr style="font-size:13px">
+                                        <input hidden asp-for="@(Model.Id)" id="" class="form-control" readonly />
+                                        <td>
+                                            @(Model.Id)
+                                        </td>
+                                        <td>
+                                            @(Model.PONumber)
+                                          @*  <input asp-for="@(Model.PONumber)" id="" class="form-control" readonly />*@
+                                        </td>
+                                       @* @if (Model.UserRole == ClientRoles.hzl || Model.UserRole == ClientRoles.admin)
+                                        {
+                                            <td>
+                                                <input asp-for="@(Model.ProjectName)" id="" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.Location)" id="" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <select asp-for="@(Model.Discipline)" asp-items="Html.GetEnumSelectList<Discipline>()" disabled="@(false)"></select>
+                                            </td>
+                                            <td>
+                                                <select asp-for="@(Model.Criticality)" asp-items="Html.GetEnumSelectList<Criticality>()" disabled="@(false)"></select>
+                                            </td>
+                                            <td>
+                                                @(Model.Status)
+                                                @*<input asp-for="@(Model.Status)" id="" class="form-control" />
+                                            </td>
+                                            <td>
+                                                <textarea asp-for="@(Model.NCRDescription)" class="form-control"></textarea>
+                                            </td>
+                                            <td>
+                                                <input class="form-control datefield" data-val="true" data-val-required="Date is required" disabled="@(true)"
+                                                       name="DateRaised" type="date" asp-for="@(Model.DateRaised)" />
+                                            </td>
+                                            <td>
+
+                                                <input class="form-control datefield" data-val="true" data-val-required="Date is required"
+                                                       id="CompletionDate" name="CompletionDate" type="date" asp-for="@(Model.CompletionDate)" />
+                                            </td>
+
+                                        }*@
+                                       
+                                            <td>
+                                            @(Model.ProjectName)
+                                            </td>
+                                            <td>
+                                            @(Model.Location)
+                                            @* <input asp-for="@(Model.Location)" id="" class="form-control" readonly/>*@
+                                            </td>
+                                            <td>
+                                                <select asp-for="@(Model.Discipline)" asp-items="Html.GetEnumSelectList<Discipline>()" disabled="@(true)"></select>
+                                            </td>
+                                            <td>
+                                                <select asp-for="@(Model.Criticality)" asp-items="Html.GetEnumSelectList<Criticality>()" disabled="@(true)"></select>
+                                            </td>
+                                            <td>
+                                                @(Model.Status)
+                                                @*<input asp-for="@(Model.Status)" id="" class="form-control" disabled="@(true)" />*@
+                                            </td>
+                                            <td>
+                                                <textarea asp-for="@(Model.NCRDescription)" class="form-control" readonly></textarea>
+                                            </td>
+                                            <td>
+                                                <input class="form-control datefield" data-val="true" data-val-required="Date is required"
+                                                       name="DateRaised" type="date" asp-for="@(Model.DateRaised)" disabled="@(true)" />
+                                            </td>
+                                            <td>
+                                                <input class="form-control datefield" data-val="true" data-val-required="Date is required"
+                                                       id="CompletionDate" name="CompletionDate" type="date" asp-for="@(Model.CompletionDate)" disabled="@(true)" />
+                                            </td>
+                                        
+                                     
+                                        @if (Model.Status != NCRStatus.CLOSE)
+                                        {
+                                            <td>
+                                                <input type="file" id="@("fileInput"+@Model.Id + "_"+@Model.Id)" multiple />
+                                            </td>
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                           
+                                @* <label>VendorComments</label>
+                                <textarea asp-for="@(Model.VendorComments)" class="form-control name="message" rows="3" cols="30"></textarea>
+                                *@
+                            @if (Model.Status == NCRStatus.CLOSE)
+                            {
+                                <label>Vendor Remark</label>
+                                <input asp-for="@(Model.VendorComments)" type="text" class="form-control" readonly />
+                                <label>User Remark</label>
+                                <input asp-for="@(Model.UserRemark)" type="text" class="form-control" readonly />
+                                <label>OEC Remark</label>
+                                <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                            }
+                            else if (Model.Status == NCRStatus.OPEN)
+                            {
+                                if (Model.UserRole == ClientRoles.admin || Model.UserRole == ClientRoles.hzl)
+                                {
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control"  />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                                else if (Model.UserRole == ClientRoles.oec)
+                                {
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control"/>
+                                }
+                                else
+                                {
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                            }
+                            else
+                            {
+                                if (Model.UserRole == ClientRoles.admin || Model.UserRole == ClientRoles.hzl)
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control"/>
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                                else if (Model.UserRole == ClientRoles.vendor)
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control" readonly />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                                else
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserRemark)" type="text" class="form-control" readonly />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorComments)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control"  />
+                                    
+                                }
+                            }
+
+                            @if(Model.UserRole == ClientRoles.vendor)
+                            {
+                                <input type="submit" name="Update" value="Update" class="btn btn-primary" />
+                            }
+                            else if (Model.UserRole == ClientRoles.hzl || Model.UserRole == ClientRoles.admin)
+                            {
+                                <input type="submit" name="Update" value="Update" class="btn btn-primary" />
+                                <input type="submit" name="Close" value="Close" class="btn btn-primary" />
+                            }
+                            else
+                            {
+                                
+                            }
+
+                        </form>
+                        <div>
+
+                            <table id="NCRDocumentTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                                <tbody></tbody>
+                                <tr id="nthRow">
+                                    <th>ServiceNo</th>
+                                    <th>DocumentPath</th>
+                                </tr>
+
+                                @foreach (var docs in @Model.NCRDocuments)
+                                {
+                                  <tr>
+                                      @*<td></td>*@
+                                        <td>@docs.Id</td> 
+                                      <td class="control" style="min-width:auto">
+                                          <a class="page-scroll" href=@docs.DocumentLocation target="_blank">Click here</a>
+                                            
+                                      </td>
+                                  </tr>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

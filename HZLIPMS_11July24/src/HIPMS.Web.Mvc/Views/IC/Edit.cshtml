@@ -1,0 +1,378 @@
+﻿@using HIPMS.Authorization.PO;
+@using HIPMS.Web.Models.Common.Modals
+@using HIPMS.Web.Startup;
+@using System.Text.Json;
+@using static HIPMS.Shared.SharedEnum;
+@using static HIPMS.IC.InspectionClearanceService;
+
+@model HIPMS.Shared.ICEditRequest
+@{
+    ViewBag.Title = "Edit";
+    ViewBag.CurrentPageName = PageNames.EditIC;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/IC/Edit.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/IC/Edit.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+       
+
+        $(document).ajaxStart(function () {
+            $("#loadingImg").show();
+            $("#fileButton").prop('disabled', true);
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loadingImg").hide();
+            $("#fileButton").prop('disabled', false);
+            $("#fileInput").val("");
+        });
+
+    });
+</script>
+<style type="text/css">
+    html > body label {
+        color:lightcoral;
+    }
+</style>
+@* <head>
+    honey
+   <meta http-equiv="Content-Security-Policy"
+          content="base-uri 'self';
+               default-src 'self';
+               img-src data: https:;
+               object-src 'none';
+               script-src 'self';
+               style-src 'self';
+               upgrade-insecure-requests;">
+</head>*@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("IC")</h1>
+            </div>
+            <div class="col-sm-6">
+                @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                <i class="fa fa-plus-square"></i>
+                @L("Create")
+                </a>*@
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                         @*   <div class="col-md-6">
+                                @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        
+                     @*   no need as in IC hzl and oec both can do final approve 
+                       @if (Model.Status != (int)ICReqStatus.Pending || Model.Status != (int)RFIReqStatus.Refer || Model.Status != (int)RFIReqStatus.Reject)
+                        {
+                            @if (Model.IsApprovedByOEC)
+                            {
+                                <span class="oec-approved"><b>● Approved By OEC</b> </span>
+                            }
+                            else if (Model.Status == (int)ICReqStatus.Approve)
+                            {
+                                <span class="oec-notapproved"><b>● Not approved By OEC</b></span>
+                            }
+                            <br />
+                        } *@
+                      @*  <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                        <form id="editform" class="m-1 p-1" asp-controller="IC" onSubmit="if(!confirm('Are you sure?')){return false;}" asp-action="EditICRequest" method="post">
+                            
+                            <input asp-for="@(Model.Id)" type="hidden"  class="form-control" />
+
+                            <label>A: Witness – By HZL/OEC</label><br>
+                            <label>B: Review – By EPC partner</label><br>
+                            <label>C: Review – Based on Mfg. test reports</label>
+                   
+                            <table id="ICTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                                <thead>
+                                    <tr style="font-size:15px">
+                                        <th>@L("ItemNumber")</th>
+                                        <th>@L("MaterialNo")</th>
+                                        <th>@L("MaterialDescription")</th>
+                                        <th>@L("MaterialClass")</th>
+                                        <th>@L("POQty")</th>
+                                        <th>@L("PreviousQty")</th>
+                                        <th>@L("BalanceQty")</th>
+                                        <th>@L("InputQty")</th>
+                                        <th>@L("RequestStatus")</th>
+                                        <th>@L("UOM")</th>
+                                        <th>@L("Make")</th>
+                                         <th>@L("Model")</th>
+                                        <th>@L("PartNo")</th>
+                                      @*<th>@L("SubmittedOn")</th>*@
+                                        <th>@L("Attachments")</th>
+                                    </tr>
+                                     @{int j = 0;}
+                                    <input asp-for="@(Model.UserAction)"  type="hidden" readonly class="form-control" />
+                                     @foreach (var i in Model.ICItems)
+                                            {
+                                        <input asp-for="@(Model.ICItems[j].POMasterId)" type="hidden" readonly class="form-control" />
+                                            <tr style="font-size:13px" >
+                                            <td class="control" style="min-width:auto">
+                                                <input asp-for="@(Model.ICItems[j].Id)" id = "" type="hidden" readonly class="form-control" />
+                                                <input asp-for="@(Model.ICItems[j].PONo)" id = "" type="hidden" readonly class="form-control" />
+                                                <input asp-for="@(Model.ICItems[j].InspectionClearanceId)" id="" type="hidden" readonly class="form-control" />
+
+                                                <input asp-for="@(Model.ICItems[j].ItemNo)" type="text" readonly class="form-control" />
+                                            </td>
+                                            <td>
+                                                @(Model.ICItems[j].MaterialNo)
+                                                @*<input asp-for="@(Model.ICItems[j].MaterialNo)" type="text" readonly class="form-control" />*@
+                                            </td>
+                                            <td>
+                                                @(Model.ICItems[j].MaterialDescription)
+                                                @*<input asp-for="@(Model.ICItems[j].MaterialDescription)" type="text" readonly class="form-control" />*@
+                                            </td>
+
+                                            @if (Model.RoleName == ClientRoles.vendor.ToString() || Model.RoleName == ClientRoles.oec.ToString() || Model.ICItems[j].Status == 2)
+                                            {
+                                                <td>
+                                                    <select asp-for="@(Model.ICItems[j].MaterialClass)" asp-items="Html.GetEnumSelectList<POMaterialClass>()" disabled="@(true)"></select>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <select asp-for="@(Model.ICItems[j].MaterialClass)" asp-items="Html.GetEnumSelectList<POMaterialClass>()" disabled="@(false)"></select>
+                                                    @* <select asp-for="@(Model.ICItems[j].MaterialClassValue)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>
+                                                  <select asp-for="@(Model.ICItems[j].MaterialClassList)" asp-items="Html.GetEnumSelectList<POMaterialClass>()"></select>*@
+                                                </td>
+                                            }
+                                           
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].POQty)" type="text" readonly class="form-control" />
+                                               @* @(
+                                                    i.POQty
+                                                 )*@
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].ICPreviousQty)" type="text" readonly class="form-control" />
+                                              @*  @(
+                                                    i.ICPreviousQty
+                                                 )*@
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].ICBalanceQty)" type="text" readonly class="form-control" />
+                                                 @*  @(i.ICBalanceQty)*@
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].ICInputQty)" type="text"  class="form-control" />
+                                            </td>
+                                            <td>
+                                                @(Model.ICItems[j].StatusValue)
+                                               @* <input asp-for="@(Model.ICItems[j].StatusValue)" type="text" readonly class="form-control" />*@
+                                             </td>
+                                            <td>
+                                                @(
+                                                    i.UOM
+                                                 )
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].Make)" type="text"  class="form-control" />
+                                                @*@(Model.ICItems[j].Make)*@
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].Model)" type="text"  class="form-control" />
+                                            </td>
+                                            <td>
+                                                <input asp-for="@(Model.ICItems[j].PartNo)" type="text"  class="form-control" />
+                                               @* @(Model.ICItems[j].PartNo)*@
+                                            </td>
+                                            @if (Model.ICItems[j].Status != (int)ICReqStatus.Approve && Model.ICItems[0].Status != (int)ICReqStatus.Reject)
+                                            {
+                                                 <td>
+                                                 @*    <input type="file" id="@("fileInput"+@Model.ICItems[j].Id)" onClick="getId(@(Model.Id))" multiple /> *@
+                                                    <input type="file" id="@("fileInput"+@Model.ICItems[j].Id + "_"+@Model.Id)"  multiple />
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                
+                                            }
+                                            
+                                            @*   <div class="col-sm-12">
+                                                <a href="javascript:;" data-toggle="modal" data-target="#ICUploadModal">
+                                                    <i class="fa fa-tool"></i>
+                                                    @L("Upload")
+                                                </a>
+                                            </div>*@
+                                            @* @await Html.PartialAsync("~/Views/IC/_EditModal.cshtml", i)*@
+                                            @* <a asp-controller="IC" asp-action="Edit" asp-route-id=@(i.Id)>Edit</a> /
+                                            <a asp-controller="IC" asp-action="Delete" asp-route-id=@(i.Id)>Delete</a>*@
+                                            
+                                        </tr>
+                                        j++;
+                                    }
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+
+                            @if (Model.ICItems[0].Status == (int)ICReqStatus.Approve || Model.ICItems[0].Status == (int)ICReqStatus.Reject)
+                            {
+                                <label>User Remark</label>
+                                <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                <label>OEC Remark</label>
+                                <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                <label>Vendor Remark</label>
+                                <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                            }
+                            else if (Model.ICItems[0].Status == (int)ICReqStatus.Pending)
+                            {
+                                if (Model.RoleName == ClientRoles.admin.ToString() || Model.RoleName == ClientRoles.hzl.ToString())
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                }
+                                else if (Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                    @*textarea not works value not bind on controller
+                                    <textarea asp-for="@(Model.OECActionRemark)" class="form-control" rows="3" cols="30"></textarea>*@
+                                }
+                                else
+                                {
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                }
+                            }
+                            else
+                            {
+                                if (Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                }
+                                else
+                                {
+                                    <label>User Remark</label>
+                                    <input asp-for="@(Model.UserActionRemark)" type="text" class="form-control" readonly />
+                                    <label>OEC Remark</label>
+                                    <input asp-for="@(Model.OECActionRemark)" type="text" class="form-control" readonly />
+                                    <label>Vendor Remark</label>
+                                    <input asp-for="@(Model.VendorRemark)" type="text" class="form-control" readonly />
+                                }
+                            }
+
+                            @if(Model.ICItems[0].Status != (int)ICReqStatus.Approve && Model.ICItems[0].Status != (int)ICReqStatus.Reject)
+                            {
+                               
+                                if(Model.RoleName == ClientRoles.admin.ToString() || Model.RoleName == ClientRoles.hzl.ToString() || Model.RoleName == ClientRoles.oec.ToString())
+                                {
+                                    <input type="submit" name="approve" value="Approve" class="btn btn-primary" />
+                                    if(Model.ICItems[0].Status != (int)ICReqStatus.Refer)
+                                    {
+                                        <input type="submit" name="refer" value="Refer" class="btn btn-primary" />
+                                    }
+                                    <input type="submit" name="reject" value="Reject" class="btn btn-primary" />
+                                }
+                                @if (Model.ICItems[0].Status == (int)ICReqStatus.Refer )
+                                {
+                                    if ((Model.RoleName == ClientRoles.oec.ToString() || Model.RoleName == ClientRoles.admin.ToString()))
+                                    {
+                                        <input type="submit" name="update" value="Update" class="btn btn-primary" />
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="submit" name="update" value="Update" class="btn btn-primary" />
+                                }
+                            }
+
+                        </form>
+                        <div>
+
+                            <table id="DocumentTable" class="table table-striped table-bordered" style="box-sizing:unset">
+                            <tbody></tbody>
+                                 <thead>Documents</thead>
+                                <tr id="nthRow" style="font-size:15px">
+                                    <th>@L("ItemNumber")</th>
+                                    <th>@L("DocumentPath")</th>
+                                </tr>
+                                @foreach (var i in @Model.ICItems)
+                                {
+
+                                    @foreach (var p in i.ICDocuments)
+                                    {
+                                        <tr>
+                                            <td>@i.ItemNo</td>
+                                            @*  <td>@p.Id</td> *@
+                                            <td class="control" style="min-width:auto">
+                                                <a class="page-scroll" href=@p.DocumentLocation target="_blank">Click here</a>
+                                            </td>
+                                          
+                                        </tr>
+                                    }
+                                }
+
+                           @*   @foreach (var i in Model.ICItems)
+                                 {
+                                    <tr style="font-size:13px">
+
+                                        <td class="control" style="min-width:auto">
+                                            @(i.Id)
+                                        </td>
+                                        <td class="control" style="min-width:auto">
+                                            <a class="page-scroll" href=@i. target="_blank">https://localhost:44312//Files/IC/0730202300.png</a>
+                                        </td>
+                                    </tr>
+                                 }*@
+                            </table>
+                        </div>
+                       
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+

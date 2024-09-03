@@ -1,0 +1,129 @@
+﻿@using HIPMS.Models;
+@using HIPMS.Web.Startup
+@model HIPMS.Web.Models.IC.ICListViewModel
+@{
+    ViewBag.Title = L("IC");
+    ViewBag.CurrentPageName = PageNames.IC;
+}
+<style type="text/css">
+    html > body span {
+        color: lightcoral;
+    }
+</style>
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/IC/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/IC/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<style>
+    .tablescroll {
+        max-height: 550px;
+        overflow: scroll;
+    }
+</style>
+<section class="content-header">
+    <h1>@L("IC")</h1>
+    <div class="container-fluid">
+     @*   @L("IC")*@
+        <div class="row">
+            <div class="col-sm-6">
+               
+                <input id="POSearch" type="text" name="Keyword" class="form-control txt-search" value="Enter PO No." />
+
+            </div>
+            <div class="col-sm-6">
+              @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                    <i class="fa fa-plus-square"></i>
+                    @L("Create")
+                </a>*@
+                <button id="btnSearch" type="button" class="btn bg-blue btn-search">
+                    <span class="fas fa-search" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                            <div class="col-md-12">
+                                <span>A: Witness – By HZL/OEC </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>B: Review – By EPC partner</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span>C: Review – Based on Mfg. test reports</span>
+                            </div>
+                            <div class="col-md-12">
+                                &nbsp;
+                                </div>
+                                <div class="col-md-4">
+                                    <label>@L("VendorName")</label>
+                                    <div>
+                                        @*@Html.TextBoxFor(m =>m.VendorName != null? m.VendorName: m.VendorNo, new { @class = "form-control" })*@
+                                        <input id="vendorName" type="text" name="Name" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>@L("VendorNo")</label>
+                                    <div>
+                                    <input id="vendorNo" type="text" name="Name" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>@L("ProjectName")</label>
+                                    <div>
+                                    <input id="projectName" type="text" name="Name" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-4">
+                                
+                                    <label>@L("ManufacturerName")</label>
+                                    <div>
+                                    <input id="manufacturerName" type="text" name="Name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>@L("ManufacturerPlantAddress")</label>
+                                    <div>
+                                    <input id="manufacturerPlantAddress" type="text" name="Name" class="form-control">
+                                    </div>
+                                </div>*@
+                                <div class="col-md-8">
+                                    <label >@L("VendorRemark")</label>
+                                    <div>
+                                        <input id="vendorRemark" type="text" name="Name" class="form-control" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div class="tablescroll">
+                                <table id="ICCreateTable" class="table table-striped table-bordered">
+                                    <tbody></tbody>
+                                </table>
+
+                                </div>
+                           
+                            </div>
+                        </div>
+                    </div>
+                <button id="btnSubmit" class="btn btn-primary save-button" disabled>@L("Save")</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+

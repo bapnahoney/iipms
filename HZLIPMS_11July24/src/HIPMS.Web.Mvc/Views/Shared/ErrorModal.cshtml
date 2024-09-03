@@ -1,0 +1,23 @@
+﻿@using HIPMS.Web.Models.Common.Modals
+@model HIPMS.Shared.ErrorMessage;
+@{
+    Layout = null;
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Model.Errormessage</h3>
+                    </div>
+                   @* <div class="panel-body">
+                        <p>
+                            @Model.Errormessage
+                        </p>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,44 @@
+﻿
+@using HIPMS.Authorization.PO;
+@using HIPMS.Web.Models.Common.Modals
+@using System.IO;
+@using static HIPMS.Shared.SharedEnum;
+
+
+
+@{
+    var stream = ViewData["StreamContent"] as MemoryStream;
+    var fileType = ViewData["FileType"] as string;
+}
+
+@if (stream != null && !string.IsNullOrEmpty(fileType))
+{
+    stream.Position = 0; // Reset the stream position to the beginning
+
+    if (fileType == "text/plain")
+    {
+        using (var reader = new StreamReader(stream))
+        {
+            string content = reader.ReadToEnd();
+            <pre>@Html.Raw(content)</pre>
+        }
+    }
+    else if (fileType.StartsWith("image/"))
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <img src="data:@fileType;base64,@base64" width="600" height="800" alt="Image" />
+    }
+    else if (fileType == "application/pdf")
+    {
+        var base64 = Convert.ToBase64String(stream.ToArray());
+        <embed src="data:application/pdf;base64,@base64" width="600" height="800" type="application/pdf" />
+    }
+    else
+    {
+        <p>Unsupported file type.</p>
+    }
+}
+else
+{
+    <p>No file to display.</p>
+}

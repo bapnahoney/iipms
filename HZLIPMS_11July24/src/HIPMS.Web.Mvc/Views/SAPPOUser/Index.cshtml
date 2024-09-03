@@ -1,0 +1,79 @@
+﻿@using HIPMS.Web.Startup
+@model List<HIPMS.Shared.ViewUserPOMap>
+@{
+    ViewBag.Title = L("UserPOMap");
+    ViewBag.CurrentPageName = PageNames.POMap;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/SAPPOUser/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/SAPPOUser/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("UserPOMap")</h1>
+            </div>
+            <div class="col-sm-6">
+                @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                <i class="fa fa-plus-square"></i>
+                @L("Create")
+                </a>*@
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                            @* <div class="col-md-6">
+                            @await Html.PartialAsync("~/Views/RFI/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@L("PO")</th>
+                                        <th>@L("User")</th>
+                                    </tr>
+                                    @foreach (var i in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(i.PONo)
+                                            </td>
+                                            <td>
+                                                @(i.UserEmail)
+                                            </td>
+                                          
+                                        </tr>
+                                    }
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

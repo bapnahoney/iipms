@@ -1,0 +1,113 @@
+﻿@using HIPMS.Models;
+@using HIPMS.Web.Startup
+@model HIPMS.Web.Models.MRFI.RFIListViewModel
+@{
+    ViewBag.Title = L("RFI");
+    ViewBag.CurrentPageName = PageNames.RFI;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/RFIJ/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/RFIJ/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<style>
+    .tablescroll {
+        max-height: 550px;
+        overflow: scroll;
+    }
+</style>
+<section class="content-header">
+    <h1>@L("RFI")</h1>
+    <div class="container-fluid">
+      @*  @L("RFI")*@
+        <div class="row">
+            <div class="col-sm-6">
+                @*  <h1>@L("RFI")</h1>*@
+                <input id="POSearch" type="text" name="Keyword" class="form-control txt-search" value="Enter PO No." />
+
+            </div>
+            <div class="col-sm-6">
+                @*  <a href="javascript:;" data-toggle="modal" data-target="#ICCreateModal" class="btn bg-blue float-sm-right">
+                <i class="fa fa-plus-square"></i>
+                @L("Create")
+                </a>*@
+                <button id="btnSearch" type="button" class="btn bg-blue btn-search">
+                    <span class="fas fa-search" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="rolename">@L("VendorName")</label>
+                                <div>
+                                    @*@Html.TextBoxFor(m =>m.VendorName != null? m.VendorName: m.VendorNo, new { @class = "form-control" })*@
+                                    <input id="vendorName" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="rolename">@L("VendorNo")</label>
+                                <div>
+                                    <input id="vendorNo" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="rolename">@L("ProjectName")</label>
+                                <div>
+                                    <input id="projectName" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>
+                         @*   <div class="col-md-4">
+                                <label for="rolename">@L("ManufacturerName")</label>
+                                <div>
+                                    <input id="manufacturerName" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="rolename">@L("ManufacturerPlantAddress")</label>
+                                <div>
+                                    <input id="manufacturerPlantAddress" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>*@
+                            <div class="col-md-4">
+                                <label for="rolename">@L("VendorRemark")</label>
+                                <div>
+                                    <input id="vendorRemark" type="text" name="Name" class="form-control" required maxlength="32" minlength="2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="tablescroll">
+                                <table id="RFICreateTable" class="table table-striped table-bordered">
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btnSubmit" class="btn btn-primary save-button">@L("Save")</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+

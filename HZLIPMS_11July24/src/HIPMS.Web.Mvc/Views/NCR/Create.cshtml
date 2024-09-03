@@ -1,0 +1,115 @@
+﻿@using HIPMS.Models;
+@using HIPMS.Web.Startup
+@using static HIPMS.Shared.SharedEnum;
+@model HIPMS.Shared.CrudNCRModel
+@{
+    ViewBag.Title = L("NCR");
+    ViewBag.CurrentPageName = PageNames.NCR;
+}
+@section scripts
+    {
+    <environment names="Development">
+        <script src="~/view-resources/Views/NCR/Index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/NCR/Index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1>@L("NCR")</h1>
+            </div>
+            <div class="col-sm-6">
+              
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!--Use for bulk actions-->
+                            </div>
+                            @*   <div class="col-md-6">
+                            @await Html.PartialAsync("~/Views/IC/Index.AdvancedSearch.cshtml")
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        @*  <div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
+                        <form id="createNCR" class="m-1 p-1" asp-controller="NCR" asp-action="Create" method="post">
+
+
+                            <table id="" class="table table-striped table-bordered" style="box-sizing:unset">
+                                <thead>
+                                    <tr style="font-size:15px">
+                                        <th>@L("PO")</th>
+                                        <th>@L("ProjectName")</th>
+                                        <th>@L("Location")</th>
+                                        @*<th>@L("NCRNo")</th>*@
+                                        <th>@L("Discipline")</th>
+                                        <th>@L("Criticality")</th>
+                                    </tr>
+                                    <tr style="font-size:13px">
+                                        <td class="control" style="min-width:auto">
+                                            <input asp-for="@(Model.PONumber)" id=""  class="form-control" />
+                                        </td>
+                                        <td class="control" style="min-width:auto">
+                                            <input asp-for="@(Model.ProjectName)" id=""   class="form-control" />
+                                        </td>
+                                        <td class="control" style="min-width:auto">
+                                            <input asp-for="@(Model.Location)" id=""   class="form-control" />
+                                        </td>
+                                      @*  <td class="control" style="min-width:auto">
+                                            <input asp-for="@(Model.NCRNo)" id="" class="form-control" />
+                                        </td>*@
+                                        <td class="control" style="min-width:auto">
+                                            <select asp-for="@(Model.Discipline)" asp-items="Html.GetEnumSelectList<Discipline>()" disabled="@(false)"></select>
+                                        <td class="control" style="min-width:auto">
+                                            <select asp-for="@(Model.Criticality)" asp-items="Html.GetEnumSelectList<Criticality>()" disabled="@(false)"></select>
+                                        </td>
+                                    </tr>
+                                    <tr style="font-size:13px">
+                                        <td class="control" style="min-width:auto">
+                                            <label>NCRDescription</label>
+                                            <textarea asp-for="@(Model.NCRDescription)" class="form-control name="message" rows="3" cols="30"></textarea>
+                                        </td>
+                                        <td class="control" style="min-width:auto">
+                                            <label>User Remark</label>
+                                            <textarea asp-for="@(Model.UserRemark)" class="form-control name="message" rows="3" cols="30"></textarea>
+                                        </td>
+                                        <td class="control" style="min-width:auto">
+                                            <label>CompletionDate</label>
+                                            <input class="form-control datefield" data-val="true" data-val-required="Date is required"
+                                                   id="CompletionDate" name="CompletionDate" type="date" value="1/11/1989" />
+                                        </td>
+                                     </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            
+                            <input type="submit" name="Save" value="save" class="btn btn-primary" />
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
